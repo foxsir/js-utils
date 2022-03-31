@@ -2,7 +2,7 @@
  * @author https://github.com/foxsir
  */
 
-type Params = {
+ type Params = {
   baseSearch?: boolean,
   params: Record<string, string>,
 }
@@ -17,10 +17,12 @@ export const UrlHelper = {
   createQueryParams: ({baseSearch, params}: Params): URLSearchParams => {
     const data: {[key: string]: string} = {};
     if(baseSearch) {
-      const search = [...new URLSearchParams(location.search)];
-      search.forEach(item => {
-        data[item[0]] = item[1];
-      });
+      const search = new URLSearchParams(location.search).entries();
+      let item = search.next();
+      while (!item.done) {
+        data[item.value[0]] = item.value[1];
+        item = search.next();
+      }
     }
 
     return new URLSearchParams(Object.assign(data, params));
@@ -32,12 +34,14 @@ export const UrlHelper = {
    */
   removeQueryParams: (params: string[]): URLSearchParams => {
     const data: {[key: string]: string} = {};
-    const search = [...new URLSearchParams(location.search)];
-    search.forEach(item => {
-      if(!params.includes(item[0])) {
-        data[item[0]] = item[1];
+    const search = new URLSearchParams(location.search).entries();
+    let item = search.next();
+    while (!item.done) {
+      if(!params.includes(item.value[0])) {
+        data[item.value[0]] = item.value[1];
       }
-    });
+      item = search.next();
+    }
 
     return new URLSearchParams(data);
   },
