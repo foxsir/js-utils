@@ -1,0 +1,9 @@
+{
+  "name": "js-utils",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/foxsir/js-utils.git",
+  "author": "foxsir <838394225@qq.com>",
+  "license": "MIT",
+  "private": true
+}
